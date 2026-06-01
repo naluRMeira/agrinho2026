@@ -1,0 +1,661 @@
+/* ==================== VARIÁVEIS CSS ==================== */
+:root {
+    --primary-green: #2d5016;
+    --light-green: #7cb342;
+    --accent-green: #558b2f;
+    --dark-green: #1f3a0d;
+    --white: #ffffff;
+    --light-gray: #f5f5f5;
+    --dark-gray: #333333;
+    --border: #e0e0e0;
+    
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --transition: all 0.3s ease;
+}
+
+/* ==================== RESET E GLOBAL ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--dark-gray);
+    background-color: var(--white);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==================== HEADER E NAVEGAÇÃO ==================== */
+.header {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+    color: var(--white);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar {
+    padding: 1rem 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.logo-icon {
+    font-size: 2rem;
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover {
+    border-bottom-color: var(--light-green);
+    color: var(--light-green);
+}
+
+/* ==================== HERO SECTION ==================== */
+.hero {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+    color: var(--white);
+    padding: 100px 20px;
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 10;
+    max-width: 800px;
+    animation: slideInUp 0.8s ease;
+}
+
+.hero h2 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+.cta-button, .cta-button-large {
+    background: var(--light-green);
+    color: var(--white);
+    border: none;
+    padding: 15px 40px;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.cta-button:hover, .cta-button-large:hover {
+    background: var(--accent-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.cta-button-large {
+    padding: 18px 50px;
+    font-size: 1.1rem;
+}
+
+/* Animação das folhas */
+.hero-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    overflow: hidden;
+}
+
+.leaf {
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.3;
+    animation: float 6s ease-in-out infinite;
+}
+
+.leaf1 {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.leaf2 {
+    top: 50%;
+    right: 10%;
+    animation-delay: 1s;
+}
+
+.leaf3 {
+    bottom: 10%;
+    left: 50%;
+    animation-delay: 2s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-30px);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== SEÇÃO VISÃO ==================== */
+.visao {
+    padding: 80px 20px;
+    background: var(--light-gray);
+}
+
+.visao h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--primary-green);
+}
+
+.visao-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.visao-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: var(--transition);
+}
+
+.visao-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.visao-card .icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.visao-card h3 {
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.visao-card p {
+    color: #666;
+    line-height: 1.7;
+}
+
+/* ==================== SEÇÃO ESTUDOS ==================== */
+.estudos {
+    padding: 80px 20px;
+    background: var(--white);
+}
+
+.estudos h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+
+.casos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.caso-card {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.caso-card:hover {
+    border-color: var(--light-green);
+    box-shadow: 0 8px 25px rgba(44, 80, 22, 0.15);
+    transform: translateY(-5px);
+}
+
+.caso-imagem {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.caso-card h3 {
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.caso-info {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.badge {
+    background: var(--light-gray);
+    color: var(--primary-green);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.preview {
+    color: #666;
+    margin-bottom: 1.5rem;
+    min-height: 40px;
+}
+
+.detail-btn {
+    background: var(--light-green);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.detail-btn:hover {
+    background: var(--accent-green);
+}
+
+/* ==================== MODAL ==================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background-color: var(--white);
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: slideDown 0.3s ease;
+    position: relative;
+}
+
+.close {
+    color: var(--dark-gray);
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.close:hover {
+    color: var(--light-green);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.caso-detalhes {
+    padding: 2rem;
+}
+
+.caso-detalhes h2 {
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+}
+
+.caso-detalhes h3 {
+    color: var(--accent-green);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.caso-detalhes p {
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.caso-detalhes ul {
+    list-style-position: inside;
+    color: #666;
+}
+
+.caso-detalhes li {
+    margin-bottom: 0.5rem;
+}
+
+/* ==================== SEÇÃO IMPACTO ==================== */
+.impacto {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--accent-green) 100%);
+    color: var(--white);
+}
+
+.impacto h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.stat {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+}
+
+/* ==================== SEÇÃO EQUILÍBRIO ==================== */
+.equilibrio {
+    padding: 80px 20px;
+    background: var(--light-gray);
+}
+
+.equilibrio h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--primary-green);
+    margin-bottom: 3rem;
+}
+
+.equilibrio-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.equilibrio-text h3 {
+    color: var(--primary-green);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.equilibrio-list {
+    list-style: none;
+    color: #666;
+}
+
+.equilibrio-list li {
+    padding: 0.7rem 0;
+    font-size: 1.05rem;
+}
+
+.progress-item {
+    margin-bottom: 2rem;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary-green);
+}
+
+.progress-bar {
+    background: var(--border);
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, var(--light-green), var(--accent-green));
+    height: 100%;
+    transition: width 1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* ==================== CTA SECTION ==================== */
+.cta-section {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+    color: var(--white);
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+/* ==================== FOOTER ==================== */
+.footer {
+    background: var(--dark-green);
+    color: var(--white);
+    padding: 60px 20px 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h3 {
+    margin-bottom: 1rem;
+    color: var(--light-green);
+}
+
+.footer-section p {
+    margin-bottom: 0.7rem;
+    opacity: 0.9;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-link {
+    color: var(--light-green);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.social-link:hover {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    opacity: 0.8;
+}
+
+/* ==================== RESPONSIVIDADE ==================== */
+@media (max-width: 768px) {
+    .hero h2 {
+        font-size: 2.2rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .visao h2, .estudos h2, .equilibrio h2, .cta-section h2, .impacto h2 {
+        font-size: 1.8rem;
+    }
+
+    .nav-menu {
+        gap: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .equilibrio-content {
+        grid-template-columns: 1fr;
+    }
+
+    .casos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 60px 20px;
+        min-height: 400px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo h1 {
+        font-size: 1.3rem;
+    }
+
+    .nav-menu {
+        gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .hero h2 {
+        font-size: 1.8rem;
+    }
+
+    .cta-button {
+        padding: 12px 25px;
+        font-size: 0.9rem;
+    }
+
+    .visao h2, .estudos h2, .equilibrio h2, .cta-section h2, .impacto h2 {
+        font-size: 1.5rem;
+    }
+}
