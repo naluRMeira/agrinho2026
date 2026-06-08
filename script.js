@@ -385,6 +385,7 @@ const POINTS_KEY = 'af_points';
 const ANSWERED_PREFIX = 'af_answered_';
 const POINTS_PER_ENQUETE = 15; // pontos por resposta
 const VIP_POINTS_PER_QUESTION = 25; // mais pontos para perguntas VIP
+const VIP_QUESTION_THRESHOLD = 45; // pontos necessários para acessar perguntas VIP
 const MAX_POINTS = 60; // para barra de progresso
 
 function getPoints() {
@@ -463,9 +464,25 @@ function getUnansweredVipQuestions() {
 function renderNextVipQuestion() {
     const container = document.getElementById('vipQuizContainer');
     if (!container) return;
+    const points = getPoints();
+    const title = container.querySelector('h3');
+
+    if (points < VIP_QUESTION_THRESHOLD) {
+        container.innerHTML = '';
+        if (title) container.appendChild(title);
+        const notice = document.createElement('p');
+        notice.textContent = `Acumule ${VIP_QUESTION_THRESHOLD} pontos para acessar perguntas VIP.`;
+        container.appendChild(notice);
+        return;
+    }
+
     const remaining = getUnansweredVipQuestions();
     if (!remaining || remaining.length === 0) {
-        container.innerHTML = '<p>Você respondeu todas as perguntas VIP. Obrigado!</p>';
+        container.innerHTML = '';
+        if (title) container.appendChild(title);
+        const done = document.createElement('p');
+        done.textContent = 'Você respondeu todas as perguntas VIP. Obrigado!';
+        container.appendChild(done);
         checkVipUnlocked();
         return;
     }
@@ -489,9 +506,6 @@ function renderNextVipQuestion() {
     });
     card.appendChild(opts);
     // limpar container e inserir
-    // manter o título existente (primeiro elemento), substituindo as perguntas
-    // assumimos que o primeiro child é o título h3
-    const title = container.querySelector('h3');
     container.innerHTML = '';
     if (title) container.appendChild(title);
     container.appendChild(card);
