@@ -287,3 +287,281 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ==================== FEEDBACK VISUAL ====================
 console.log('✅ Agro Forte - Futuro Sustentável');
 console.log('Carregando histórias de fazendas brasileiras inovadoras...');
+
+// ==================== ELEMENTOS DINÂMICOS (RELÓGIO, DICA, SUBSCRIBE) ====================
+const dicas = [
+    'Rode rotação de culturas para melhorar a saúde do solo e reduzir pragas.',
+    'Utilize cobertura vegetal para aumentar matéria orgânica e retenção de água.',
+    'Adote sensores de umidade para otimizar a irrigação e economizar água.',
+    'Plante árvores estratégicas para aumentar a biodiversidade e proteger nascentes.',
+    'Implemente adubação verde para reduzir a necessidade de fertilizantes sintéticos.'
+];
+
+function mostrarDicaAleatoria() {
+    const idx = Math.floor(Math.random() * dicas.length);
+    const el = document.getElementById('dicaText');
+    if (el) {
+        el.textContent = dicas[idx];
+        el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500 });
+    }
+}
+
+function atualizaRelogio() {
+    const el = document.getElementById('clock');
+    const greet = document.getElementById('greeting');
+    if (!el) return;
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+    el.textContent = `${hh}:${mm}:${ss}`;
+
+    if (greet) {
+        const hour = now.getHours();
+        let texto = 'Olá';
+        if (hour < 12) texto = 'Bom dia';
+        else if (hour < 18) texto = 'Boa tarde';
+        else texto = 'Boa noite';
+        greet.textContent = texto;
+    }
+}
+
+function handleSubscribe(e) {
+    e.preventDefault();
+    const input = document.getElementById('emailInput');
+    const msg = document.getElementById('subscribeMsg');
+    if (!input || !msg) return;
+    const email = input.value.trim();
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!re.test(email)) {
+        msg.textContent = 'Insira um e-mail válido.';
+        msg.style.color = 'crimson';
+        return;
+    }
+
+    // Simular envio
+    msg.textContent = 'Obrigado! Verifique sua caixa de entrada.';
+    msg.style.color = 'green';
+    input.value = '';
+}
+
+// Inicializar elementos dinâmicos ao carregar o DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Já existia lógica; mantemos e adicionamos inicializadores
+    const cards = document.querySelectorAll('.caso-card');
+    cards.forEach(card => {
+        observer.observe(card);
+    });
+
+    const progressFills = document.querySelectorAll('.progress-fill');
+    const progressObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.width = entry.target.parentElement.parentElement.querySelector('.progress-label span:last-child').textContent;
+            }
+        });
+    }, { threshold: 0.5 });
+
+    progressFills.forEach(fill => {
+        progressObserver.observe(fill);
+    });
+
+    // Relógio
+    atualizaRelogio();
+    setInterval(atualizaRelogio, 1000);
+
+    // Dica inicial e botão
+    const novaBtn = document.getElementById('novaDicaBtn');
+    if (novaBtn) novaBtn.addEventListener('click', mostrarDicaAleatoria);
+    mostrarDicaAleatoria();
+
+    // Subscribe
+    const form = document.getElementById('subscribeForm');
+    if (form) form.addEventListener('submit', handleSubscribe);
+});
+
+// ==================== SISTEMA DE ENQUETES E PONTOS ====================
+const POINTS_KEY = 'af_points';
+const ANSWERED_PREFIX = 'af_answered_';
+const POINTS_PER_ENQUETE = 15; // pontos por resposta
+const VIP_POINTS_PER_QUESTION = 25; // mais pontos para perguntas VIP
+const MAX_POINTS = 60; // para barra de progresso
+
+function getPoints() {
+    return parseInt(localStorage.getItem(POINTS_KEY) || '0', 10);
+}
+
+function setPoints(n) {
+    localStorage.setItem(POINTS_KEY, String(n));
+}
+
+function updatePointsUI() {
+    const points = getPoints();
+    const pointsEl = document.getElementById('pointsValue');
+    const fill = document.getElementById('pointsFill');
+    const disc = document.getElementById('discountText');
+    const vipBtn = document.getElementById('vipAccessBtn');
+    const claimBtn = document.getElementById('claimDiscountBtn');
+    if (pointsEl) pointsEl.textContent = points;
+    const pct = Math.min(100, Math.round((points / MAX_POINTS) * 100));
+    if (fill) fill.style.width = pct + '%';
+    const discount = calculateDiscount(points);
+    if (disc) disc.textContent = `Desconto: ${discount}%`;
+    // Habilitar botões conforme pontos
+    if (vipBtn) vipBtn.disabled = points < 10; // acesso VIP mínimo
+    if (claimBtn) claimBtn.disabled = discount === 0;
+}
+
+function calculateDiscount(points) {
+    // 10% a cada 20 pontos (ex: 20->10%, 40->20%, 60->30%)
+    const tiers = Math.floor(points / 20);
+    return Math.min(50, tiers * 10);
+}
+
+function responderEnquete(pollId, escolha) {
+    const answeredKey = ANSWERED_PREFIX + pollId;
+    if (localStorage.getItem(answeredKey)) {
+        alert('Você já respondeu esta enquete. Obrigado!');
+        return;
+    }
+    // marcar como respondido
+    localStorage.setItem(answeredKey, escolha);
+    // adicionar pontos (diferencia VIP)
+    const pontosAtuais = getPoints();
+    const isVip = String(pollId).startsWith('vip');
+    const pontosGanho = isVip ? VIP_POINTS_PER_QUESTION : POINTS_PER_ENQUETE;
+    setPoints(pontosAtuais + pontosGanho);
+    updatePointsUI();
+    // desabilitar botões da enquete
+    const card = document.querySelector(`.poll-card[data-poll="${pollId}"]`);
+    if (card) {
+        const buttons = card.querySelectorAll('.poll-btn');
+        buttons.forEach(btn => btn.disabled = true);
+        // mostrar confirmação
+        const conf = document.createElement('div');
+        conf.className = 'poll-confirm';
+        conf.textContent = `Obrigado! +${pontosGanho} pontos`;
+        card.appendChild(conf);
+    }
+    // se for VIP, checar progresso do questionário VIP e mostrar próxima pergunta
+    if (isVip) {
+        checkVipUnlocked();
+        setTimeout(renderNextVipQuestion, 700);
+    }
+}
+
+const vipQuestions = [
+    { id: 'vip-1', question: 'Qual é a prática mais importante para conservar água?', options: ['Irrigação por gotejamento','Captação de água da chuva','Uso de pivôs'] },
+    { id: 'vip-2', question: 'Qual prática mais aumenta matéria orgânica do solo?', options: ['Adubação verde','Labour intensivo','Rotação com gramíneas'] },
+    { id: 'vip-3', question: 'Qual tecnologia é mais útil para monitoramento em tempo real?', options: ['Sensores de solo','Satélites apenas','Relatórios periódicos'] }
+];
+
+function getUnansweredVipQuestions() {
+    return vipQuestions.filter(q => !localStorage.getItem(ANSWERED_PREFIX + q.id));
+}
+
+function renderNextVipQuestion() {
+    const container = document.getElementById('vipQuizContainer');
+    if (!container) return;
+    const remaining = getUnansweredVipQuestions();
+    if (!remaining || remaining.length === 0) {
+        container.innerHTML = '<p>Você respondeu todas as perguntas VIP. Obrigado!</p>';
+        checkVipUnlocked();
+        return;
+    }
+    // escolher aleatoriamente uma pergunta não respondida
+    const next = remaining[Math.floor(Math.random() * remaining.length)];
+    // construir card
+    const card = document.createElement('div');
+    card.className = 'poll-card';
+    card.setAttribute('data-poll', next.id);
+    const p = document.createElement('p');
+    p.textContent = next.question;
+    card.appendChild(p);
+    const opts = document.createElement('div');
+    opts.className = 'poll-options';
+    next.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'poll-btn';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => responderEnquete(next.id, opt));
+        opts.appendChild(btn);
+    });
+    card.appendChild(opts);
+    // limpar container e inserir
+    // manter o título existente (primeiro elemento), substituindo as perguntas
+    // assumimos que o primeiro child é o título h3
+    const title = container.querySelector('h3');
+    container.innerHTML = '';
+    if (title) container.appendChild(title);
+    container.appendChild(card);
+}
+
+function checkVipUnlocked() {
+    const vipIds = vipQuestions.map(q => q.id);
+    const allAnswered = vipIds.every(id => Boolean(localStorage.getItem(ANSWERED_PREFIX + id)));
+    if (allAnswered) {
+        localStorage.setItem('af_vip_unlocked', '1');
+        const vipContent = document.getElementById('vipContent');
+        const vipBtn = document.getElementById('vipAccessBtn');
+        if (vipContent) vipContent.style.display = 'block';
+        if (vipBtn) vipBtn.disabled = false;
+        const vipIntro = document.getElementById('vipIntro');
+        if (vipIntro) vipIntro.textContent = 'Parabéns — você desbloqueou a Área VIP!';
+    }
+}
+
+function claimDiscount() {
+    const points = getPoints();
+    const discount = calculateDiscount(points);
+    if (discount === 0) {
+        alert('Você ainda não tem desconto disponível. Responda mais enquetes!');
+        return;
+    }
+    // gerar cupom simples
+    const code = 'VIP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const couponEl = document.getElementById('vipCoupon');
+    if (couponEl) {
+        couponEl.style.display = 'block';
+        couponEl.textContent = `Cupom: ${code} — Desconto de ${discount}% em serviços VIP`;
+    }
+    // revelar conteúdo VIP
+    const vipContent = document.getElementById('vipContent');
+    if (vipContent) vipContent.style.display = 'block';
+    // opcional: consumir pontos parcialmente (ex: descontar 20 pontos por resgate)
+    const newPoints = Math.max(0, points - 20);
+    setPoints(newPoints);
+    updatePointsUI();
+}
+
+// Inicialização do sistema de pontos ao carregar
+document.addEventListener('DOMContentLoaded', function() {
+    // atualizar UI de pontos
+    updatePointsUI();
+    // checar se questionário VIP já foi concluído
+    if (localStorage.getItem('af_vip_unlocked') === '1') {
+        checkVipUnlocked();
+    }
+    // renderizar primeira pergunta VIP disponível
+    renderNextVipQuestion();
+    // desabilitar/enabled botões de enquetes caso já respondidas
+    document.querySelectorAll('.poll-card').forEach(card => {
+        const id = card.getAttribute('data-poll');
+        if (localStorage.getItem(ANSWERED_PREFIX + id)) {
+            const buttons = card.querySelectorAll('.poll-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            const conf = document.createElement('div');
+            conf.className = 'poll-confirm';
+            conf.textContent = `Respondida`;
+            card.appendChild(conf);
+        }
+    });
+
+    const claimBtn = document.getElementById('claimDiscountBtn');
+    if (claimBtn) claimBtn.addEventListener('click', claimDiscount);
+    const vipBtn = document.getElementById('vipAccessBtn');
+    if (vipBtn) vipBtn.addEventListener('click', () => {
+        const vipContent = document.getElementById('vipContent');
+        if (vipContent) vipContent.style.display = 'block';
+    });
+});

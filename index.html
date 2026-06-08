@@ -22,11 +22,100 @@
                     <li><a href="#impacto" class="nav-link">Impacto</a></li>
                     <li><a href="#contato" class="nav-link">Contato</a></li>
                 </ul>
+
+                <div class="dynamic-panel">
+                    <div id="clock" class="clock">--:--:--</div>
+                    <div id="greeting" class="greeting">Olá</div>
+                </div>
             </div>
         </nav>
     </header>
 
     <!-- HERO SECTION -->
+    <!-- SEÇÃO INTERATIVA -->
+    <section id="interativo" class="interativo">
+        <div class="container">
+            <h2>Interaja e Ganhe Pontos</h2>
+            <p class="section-subtitle">Responda enquetes rápidas para acumular pontos e ganhar descontos na área VIP</p>
+
+            <div class="points-area">
+                <div class="points-info">
+                    <strong>Pontos:</strong> <span id="pointsValue">0</span>
+                </div>
+                <div class="discount-info">
+                    <span id="discountText">Desconto: 0%</span>
+                </div>
+                <div class="points-progress">
+                    <div class="points-progress-fill" id="pointsFill" style="width:0%"></div>
+                </div>
+            </div>
+
+            <div class="polls-grid">
+                <div class="poll-card" data-poll="1">
+                    <h3>Qual prática você aplica no manejo do solo?</h3>
+                    <div class="poll-options">
+                        <button class="poll-btn" onclick="responderEnquete(1, 'Plantio direto')">Plantio direto</button>
+                        <button class="poll-btn" onclick="responderEnquete(1, 'Rotação de culturas')">Rotação de culturas</button>
+                        <button class="poll-btn" onclick="responderEnquete(1, 'Adubação química')">Adubação química</button>
+                    </div>
+                </div>
+
+                <div class="poll-card" data-poll="2">
+                    <h3>Você usa tecnologia de precisão na fazenda?</h3>
+                    <div class="poll-options">
+                        <button class="poll-btn" onclick="responderEnquete(2, 'Sim, extensivamente')">Sim, extensivamente</button>
+                        <button class="poll-btn" onclick="responderEnquete(2, 'Parcialmente')">Parcialmente</button>
+                        <button class="poll-btn" onclick="responderEnquete(2, 'Não, ainda não')">Não, ainda não</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vip-area" id="vipArea">
+                <h2>Área VIP</h2>
+                <p id="vipIntro">A Área VIP contém conteúdos exclusivos, relatórios aprofundados e descontos em serviços.</p>
+                <div class="vip-quiz">
+                    <h3>Questionário VIP (responda para desbloquear)</h3>
+                    <div class="poll-card" data-poll="vip-1">
+                        <p>1) Qual é a prática mais importante para conservar água?</p>
+                        <div class="poll-options">
+                            <button class="poll-btn" onclick="responderEnquete('vip-1','Irrigação por gotejamento')">Irrigação por gotejamento</button>
+                            <button class="poll-btn" onclick="responderEnquete('vip-1','Captação de água da chuva')">Captação de água da chuva</button>
+                            <button class="poll-btn" onclick="responderEnquete('vip-1','Uso de pivôs')">Uso de pivôs</button>
+                        </div>
+                    </div>
+                    <div class="poll-card" data-poll="vip-2">
+                        <p>2) Qual prática mais aumenta matéria orgânica do solo?</p>
+                        <div class="poll-options">
+                            <button class="poll-btn" onclick="responderEnquete('vip-2','Adubação verde')">Adubação verde</button>
+                            <button class="poll-btn" onclick="responderEnquete('vip-2','Labour intensivo')">Labour intensivo</button>
+                            <button class="poll-btn" onclick="responderEnquete('vip-2','Rotação com gramíneas')">Rotação com gramíneas</button>
+                        </div>
+                    </div>
+                    <div class="poll-card" data-poll="vip-3">
+                        <p>3) Qual tecnologia é mais útil para monitoramento em tempo real?</p>
+                        <div class="poll-options">
+                            <button class="poll-btn" onclick="responderEnquete('vip-3','Sensores de solo')">Sensores de solo</button>
+                            <button class="poll-btn" onclick="responderEnquete('vip-3','Satélites apenas')">Satélites apenas</button>
+                            <button class="poll-btn" onclick="responderEnquete('vip-3','Relatórios periódicos')">Relatórios periódicos</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="vip-actions">
+                    <button id="vipAccessBtn" class="cta-button-large" disabled>Requer pontos</button>
+                    <button id="claimDiscountBtn" class="detail-btn" disabled>Resgatar Desconto</button>
+                </div>
+                <div id="vipContent" class="vip-content" style="display:none">
+                    <h3>Conteúdo Exclusivo</h3>
+                    <ul>
+                        <li>Relatórios avançados de sustentabilidade (PDF)</li>
+                        <li>Acesso a webinars mensais com especialistas</li>
+                        <li>Consultoria rápida de 30 minutos (1x por mês)</li>
+                    </ul>
+                    <p id="vipCoupon" style="display:none"></p>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="home" class="hero">
         <div class="hero-content">
             <h2>Agro Forte, Futuro Sustentável</h2>
@@ -34,6 +123,12 @@
             <button class="cta-button" onclick="document.getElementById('estudos').scrollIntoView({behavior: 'smooth'})">
                 Conhecer os Casos de Sucesso
             </button>
+
+            <div class="dica-card" id="dicaCard">
+                <h3>Dica do Dia</h3>
+                <p id="dicaText">Clique em "Outra dica" para receber uma dica prática.</p>
+                <button id="novaDicaBtn" class="detail-btn">Outra dica</button>
+            </div>
         </div>
         <div class="hero-background">
             <div class="leaf leaf1"></div>

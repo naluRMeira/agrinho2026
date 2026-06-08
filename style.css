@@ -599,6 +599,180 @@ body {
     opacity: 0.8;
 }
 
+/* ==================== ELEMENTOS DINÂMICOS ==================== */
+.dynamic-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    color: var(--white);
+    margin-left: 20px;
+}
+
+.clock {
+    font-weight: 700;
+    background: rgba(255,255,255,0.08);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.greeting {
+    font-size: 0.9rem;
+    opacity: 0.95;
+}
+
+.dica-card {
+    margin-top: 1.5rem;
+    background: rgba(255,255,255,0.08);
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    display: inline-block;
+    text-align: left;
+    max-width: 420px;
+}
+
+.dica-card h3 {
+    margin-bottom: 0.4rem;
+    color: var(--white);
+}
+
+.dica-card p {
+    color: rgba(255,255,255,0.95);
+    margin-bottom: 0.7rem;
+}
+
+.subscribe-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.subscribe-form input[type="email"] {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    outline: none;
+}
+
+.subscribe-form button {
+    background: var(--light-green);
+    color: var(--white);
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.subscribe-msg {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* ENQUETES E VIP */
+.interativo {
+    padding: 60px 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.01));
+}
+
+.points-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.points-info, .discount-info {
+    color: var(--primary-green);
+    font-weight: 700;
+}
+
+.points-progress {
+    flex: 1 1 300px;
+    background: var(--border);
+    height: 14px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.points-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--light-green), var(--accent-green));
+    transition: width 0.6s ease;
+}
+
+.polls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.poll-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.poll-card h3 {
+    color: var(--primary-green);
+    margin-bottom: 0.6rem;
+}
+
+.poll-options {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.poll-btn {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary-green);
+}
+
+.poll-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.poll-confirm {
+    margin-top: 0.6rem;
+    color: var(--accent-green);
+    font-weight: 700;
+}
+
+.vip-area {
+    margin-top: 2rem;
+    background: linear-gradient(180deg, rgba(44,80,22,0.06), rgba(87,139,47,0.04));
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.vip-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin: 1rem 0;
+}
+
+.vip-content {
+    background: rgba(255,255,255,0.02);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.vip-content h3 {
+    color: var(--primary-green);
+}
+
 /* ==================== RESPONSIVIDADE ==================== */
 @media (max-width: 768px) {
     .hero h2 {
